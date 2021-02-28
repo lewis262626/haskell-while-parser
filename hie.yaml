@@ -1,2 +1,10 @@
 cradle:
   cabal:
+    - path: "bin/Main.hs"
+      component: "while-programming-language:exe:while-programming-language"
+
+    - path: "lib"
+      component: "lib:while-programming-language"
+
+    - path: "tests"
+      component: "while-programming-language:test:tests"

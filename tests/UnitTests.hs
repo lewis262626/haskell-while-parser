@@ -1,0 +1,31 @@
+module Main where
+import Test.Framework
+import Test.Framework.Providers.HUnit
+import Test.HUnit
+
+import Text.Parsec
+
+import WhileParser
+
+testConstant123 :: Test.HUnit.Test
+testConstant123 = TestCase $ assertEqual "Constant 123"
+   (parse constant "Error" "123") (Right 123 :: Either ParseError Int)
+
+testConstant589 :: Test.HUnit.Test
+testConstant589 = TestCase $ assertEqual "Constant 589"
+   (parse constant "Error" "589") (Right 589 :: Either ParseError Int)
+
+testConstantChars :: Test.HUnit.Test
+testConstantChars = TestCase $
+   case parse constant "Error" "c2" of
+       Left _ -> assertBool "SUCCESS" True
+       Right _ -> assertFailure "Failure"
+
+-- hUnitTestToTests: Adapt an existing HUnit test into a list of test-framework tests
+tests :: [Test.Framework.Test]
+tests = hUnitTestToTests $ TestList [TestLabel "testConstants123" testConstant123,
+                    TestLabel "testConstant589" testConstant589,
+                    TestLabel "testConstantChars" testConstantChars]
+
+main :: IO ()
+main = defaultMain tests
