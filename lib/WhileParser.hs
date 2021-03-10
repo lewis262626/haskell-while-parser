@@ -6,7 +6,7 @@ import Data.Char (isAlpha)
 
 parseBool :: Parsec String () Bool
 parseBool = do
-    value <- string "true" <|> string "false"
+    value <- (string "true" <* eof) <|> (string "false" <* eof)
     return $ chooseVal value
     where chooseVal x = case x of
                             "true" -> True

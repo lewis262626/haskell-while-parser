@@ -21,11 +21,23 @@ testConstantChars = TestCase $
        Left _ -> assertBool "SUCCESS" True
        Right _ -> assertFailure "Failure"
 
+testBoolTrue :: Test.HUnit.Test
+testBoolTrue = TestCase $ assertEqual "parseBool true"
+   (parse parseBool "Error" "true") (Right True :: Either ParseError Bool)
+
+testBoolTrue2 :: Test.HUnit.Test
+testBoolTrue2 = TestCase $
+   case parse parseBool "Error" "true2" of
+       Left _ -> assertBool "SUCCESS" True
+       Right _ -> assertFailure "Failure" 
+
 -- hUnitTestToTests: Adapt an existing HUnit test into a list of test-framework tests
 tests :: [Test.Framework.Test]
 tests = hUnitTestToTests $ TestList [TestLabel "testConstants123" testConstant123,
                     TestLabel "testConstant589" testConstant589,
-                    TestLabel "testConstantChars" testConstantChars]
+                    TestLabel "testConstantChars" testConstantChars,
+                    TestLabel "testBoolTrue" testBoolTrue,
+                    TestLabel "testBoolTrue2" testBoolTrue2]
 
 main :: IO ()
 main = defaultMain tests
