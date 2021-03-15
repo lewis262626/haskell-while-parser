@@ -7,24 +7,34 @@ import Text.Parsec
 
 import WhileParser
 
+-- should be true
 testConstant123 :: Test.HUnit.Test
-testConstant123 = TestCase $ assertEqual "Constant 123"
-   (parse constant "Error" "123") (Right 123 :: Either ParseError Int)
+testConstant123 = TestCase $
+   case parse parseConstant "Error" "123" of
+      Left _ -> assertFailure "Failure"
+      Right _ -> assertBool "Success" True
 
+-- should be true
 testConstant589 :: Test.HUnit.Test
-testConstant589 = TestCase $ assertEqual "Constant 589"
-   (parse constant "Error" "589") (Right 589 :: Either ParseError Int)
+testConstant589 = TestCase $
+   case parse parseConstant "Error" "589" of
+      Left _ -> assertFailure "Failure"
+      Right _ -> assertBool "Success" True
 
+-- should be failure
 testConstantChars :: Test.HUnit.Test
 testConstantChars = TestCase $
-   case parse constant "Error" "c2" of
+   case parse parseConstant "Error" "c2" of
        Left _ -> assertBool "SUCCESS" True
-       Right _ -> assertFailure "Failure"
-
+       Right _ -> assertFailure "Failure" 
+-- should be true
 testBoolTrue :: Test.HUnit.Test
-testBoolTrue = TestCase $ assertEqual "parseBool true"
-   (parse parseBool "Error" "true") (Right True :: Either ParseError Bool)
+testBoolTrue = TestCase $
+   case parse parseBool "Error" "true" of
+      Left _ -> assertFailure "Failure"
+      Right _ -> assertBool "Success" True
 
+-- should be failure
 testBoolTrue2 :: Test.HUnit.Test
 testBoolTrue2 = TestCase $
    case parse parseBool "Error" "true2" of
